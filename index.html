@@ -44,7 +44,12 @@
                                 </label>
                                 <div class="input-hint">Начальный диаметр</div>
                             </div>
-                            <input type="text" id="diameterD" placeholder="50.0">
+                            <div class="input-with-clear">
+                                <input type="text" id="diameterD" placeholder="50.0">
+                                <button class="field-clear-btn" data-target="diameterD" title="Очистить поле">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
                         </div>
                         
                         <div class="input-group">
@@ -55,7 +60,12 @@
                                 </label>
                                 <div class="input-hint">Конечный диаметр</div>
                             </div>
-                            <input type="text" id="diameterD1" placeholder="46.0">
+                            <div class="input-with-clear">
+                                <input type="text" id="diameterD1" placeholder="46.0">
+                                <button class="field-clear-btn" data-target="diameterD1" title="Очистить поле">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
                         </div>
 
                         <div class="input-group">
@@ -66,7 +76,12 @@
                                 </label>
                                 <div class="input-hint">Угол фаски</div>
                             </div>
-                            <input type="text" id="angle" placeholder="45.0">
+                            <div class="input-with-clear">
+                                <input type="text" id="angle" placeholder="45.0">
+                                <button class="field-clear-btn" data-target="angle" title="Очистить поле">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
                         </div>
                         
                         <div class="input-group">
@@ -77,17 +92,33 @@
                                 </label>
                                 <div class="input-hint">Длина фаски</div>
                             </div>
-                            <input type="text" id="lengthL1" placeholder="2.0">
+                            <div class="input-with-clear">
+                                <input type="text" id="lengthL1" placeholder="2.0">
+                                <button class="field-clear-btn" data-target="lengthL1" title="Очистить поле">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
                         </div>
                     </div>
 
                     <!-- Компактные настройки -->
                     <div class="compact-settings">
-                        <!-- Радиус инструмента -->
+                        <!-- Чекбокс для учета радиуса -->
                         <div class="compact-group">
+                            <div class="checkbox-row">
+                                <input type="checkbox" id="useRadius" checked>
+                                <label for="useRadius" class="checkbox-label">
+                                    <i class="fas fa-toolbox"></i>
+                                    Учитывать радиус инструмента в расчетах
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Радиус инструмента -->
+                        <div class="compact-group" id="radiusGroup">
                             <div class="compact-header">
-                                <i class="fas fa-toolbox"></i>
-                                <span>Радиус инструмента</span>
+                                <i class="fas fa-adjust"></i>
+                                <span>Радиус вершины R (мм)</span>
                             </div>
                             <input type="text" id="toolRadius" placeholder="0.4" value="0.4">
                         </div>
@@ -116,7 +147,7 @@
                             Очистить все
                         </button>
                         <button class="action-btn calculate-btn" id="calculateBtn">
-                            <i class="fas fa-calculator"></i>
+                            <i class="fas fa-sync-alt"></i>
                             Обновить расчет
                         </button>
                     </div>
