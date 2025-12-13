@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Калькулятор фаски ЧПУ</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Дополнительные стили для кнопок очистки */
+        .input-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .clear-btn {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.2s;
+            opacity: 0.7;
+        }
+
+        .clear-btn:hover {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+
+        .clear-btn i {
+            font-size: 10px;
+        }
+
+        /* Увеличим canvas */
+        #chamferCanvas {
+            width: 100%;
+            height: 320px;
+            background: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+
+        /* Улучшим отображение результатов */
+        .results-display {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .result-box {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+        }
+
+        .result-label {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .result-value {
+            font-size: 20px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .result-unit {
+            font-size: 12px;
+            color: #7f8c8d;
+            margin-left: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Шапка -->
+        <header class="header">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-cogs"></i>
+                    <h1>Калькулятор фаски для ЧПУ</h1>
+                </div>
+                <p class="tagline">Расчет координат с учетом радиуса вершины инструмента</p>
+            </div>
+        </header>
+
+        <!-- Основной контент -->
+        <div class="main-content">
+            <!-- Левая панель: Ввод данных -->
+            <div class="input-panel">
+                <div class="panel-header">
+                    <i class="fas fa-sliders-h"></i>
+                    <h2>Параметры фаски</h2>
+                </div>
+
+                <!-- Инструкция -->
+                <div class="instruction">
+                    <i class="fas fa-info-circle"></i>
+                    <p>Введите любые <strong>3 параметра</strong> из 4-х для расчета</p>
+                </div>
+
+                <!-- Поля ввода -->
+                <div class="input-fields">
+                    <div class="input-row">
+                        <div class="input-group">
+                            <div class="input-header">
+                                <label for="diameterD">
+                                    <i class="fas fa-circle"></i>
+                                    Начальный диаметр D (мм)
+                                </label>
+                                <button class="clear-btn" data-target="diameterD" title="Очистить">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                            <input type="text" id="diameterD" placeholder="10.0">
+                        </div>
+                        
+                        <div class="input-group">
+                            <div class="input-header">
+                                <label for="diameterD1">
+                                    <i class="fas fa-circle-notch"></i>
+                                    Конечный диаметр D1 (мм)
+                                </label>
+                                <button class="clear-btn" data-target="diameterD1" title="Очистить">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                            <input type="text" id="diameterD1" placeholder="8.0">
+                        </div>
+                    </div>
+
+                    <div class="input-row">
+                        <div class="input-group">
+                            <div class="input-header">
+                                <label for="angle">
+                                    <i class="fas fa-angle-right"></i>
+                                    Угол фаски α (°)
+                                </label>
+                                <button class="clear-btn" data-target="angle" title="Очистить">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                            <input type="text" id="angle" placeholder="45">
+                        </div>
+                        
+                        <div class="input-group">
+                            <div class="input-header">
+                                <label for="lengthL1">
+                                    <i class="fas fa-ruler-horizontal"></i>
+                                    Длина фаски L1 (мм)
+                                </label>
+                                <button class="clear-btn" data-target="lengthL1" title="Очистить">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                            <input type="text" id="lengthL1" placeholder="1.0">
+                        </div>
+                    </div>
+
+                    <!-- Чекбокс для радиуса -->
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="useRadius" checked>
+                        <label for="useRadius">
+                            <i class="fas fa-toolbox"></i>
+                            Учитывать радиус вершины инструмента
+                        </label>
+                    </div>
+
+                    <!-- Поле для радиуса -->
+                    <div class="input-group radius-input" id="radiusGroup">
+                        <label for="toolRadius">
+                            <i class="fas fa-adjust"></i>
+                            Радиус вершины R (мм)
+                        </label>
+                        <input type="text" id="toolRadius" placeholder="0.4" value="0.4">
+                    </div>
+
+                    <!-- Тип угла -->
+                    <div class="angle-type-selector">
+                        <div class="selector-label">
+                            <i class="fas fa-compass"></i>
+                            Отсчет угла от:
+                        </div>
+                        <div class="angle-buttons">
+                            <button class="angle-btn active" data-type="face">
+                                <div class="angle-visual">
+                                    <div class="angle-line horizontal"></div>
+                                    <div class="angle-line diagonal"></div>
+                                    <span class="angle-alpha">α</span>
+                                </div>
+                                <span>Торца</span>
+                            </button>
+                            <button class="angle-btn" data-type="axis">
+                                <div class="angle-visual">
+                                    <div class="angle-line vertical"></div>
+                                    <div class="angle-line diagonal-vert"></div>
+                                    <span class="angle-alpha">α</span>
+                                </div>
+                                <span>Оси</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Кнопка расчета -->
+                    <button class="calculate-btn" id="calculateBtn">
+                        <i class="fas fa-calculator"></i>
+                        Рассчитать координаты
+                    </button>
+                </div>
+            </div>
+
+            <!-- Правая панель: Результаты -->
+            <div class="results-panel">
+                <!-- Визуализация -->
+                <div class="visualization-section">
+                    <div class="panel-header">
+                        <i class="fas fa-project-diagram"></i>
+                        <h2>Визуализация фаски</h2>
+                    </div>
+                    <div class="canvas-wrapper">
+                        <canvas id="chamferCanvas" width="600" height="320"></canvas>
+                    </div>
+                </div>
+
+                <!-- Результаты расчета -->
+                <div class="results-section">
+                    <div class="panel-header">
+                        <i class="fas fa-chart-line"></i>
+                        <h2>Результаты расчета</h2>
+                    </div>
+                    
+                    <div class="results-display">
+                        <div class="result-box">
+                            <div class="result-label">Конечный диаметр D1</div>
+                            <div class="result-value" id="resultD1">-</div>
+                            <span class="result-unit">мм</span>
+                        </div>
+                        
+                        <div class="result-box">
+                            <div class="result-label">Длина фаски L1</div>
+                            <div class="result-value" id="resultL1">-</div>
+                            <span class="result-unit">мм</span>
+                        </div>
+                        
+                        <div class="result-box">
+                            <div class="result-label">Координата X</div>
+                            <div class="result-value" id="resultX">-</div>
+                            <span class="result-unit">мм</span>
+                        </div>
+                        
+                        <div class="result-box">
+                            <div class="result-label">Координата Z</div>
+                            <div class="result-value" id="resultZ">-</div>
+                            <span class="result-unit">мм</span>
+                        </div>
+                    </div>
+
+                    <!-- Информация о коррекции -->
+                    <div class="correction-info" id="correctionInfo" style="display: none; margin-top: 20px; padding: 15px; background: #f0f7ff; border-radius: 8px; border-left: 4px solid #3498db;">
+                        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                            <i class="fas fa-cogs" style="color: #3498db;"></i>
+                            <h3 style="margin: 0; font-size: 16px; color: #2c3e50;">Коррекция радиуса</h3>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                            <div>
+                                <span style="font-size: 14px; color: #666;">Смещение по X:</span>
+                                <div style="font-weight: bold; color: #2c3e50;" id="corrDeltaX">0.000 мм</div>
+                            </div>
+                            <div>
+                                <span style="font-size: 14px; color: #666;">Смещение по Z:</span>
+                                <div style="font-weight: bold; color: #2c3e50;" id="corrDeltaZ">0.000 мм</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- G-код -->
+                <div class="gcode-section">
+                    <div class="panel-header">
+                        <i class="fas fa-code"></i>
+                        <h2>G-код (Fanuc)</h2>
+                        <div class="header-actions">
+                            <button class="action-btn" id="copyGCode" title="Копировать">
+                                <i class="far fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="gcode-container">
+                        <pre id="gCodePreview" style="background: #2c3e50; color: white; padding: 15px; border-radius: 5px; font-family: monospace; white-space: pre-wrap; max-height: 200px; overflow-y: auto;">// Введите параметры фаски для расчета</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Футер -->
+        <footer class="footer">
+            <p>© 2024 Калькулятор фаски для ЧПУ | Для программирования токарных станков с ЧПУ</p>
+            <p class="footer-note"><i class="fas fa-lightbulb"></i> Подсказка: Введите любые 3 параметра из 4 (D, D1, α, L1)</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Инициализация
+        document.addEventListener('DOMContentLoaded', function() {
+            // Обработчики для кнопок типа угла
+            document.querySelectorAll('.angle-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.angle-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    calculate();
+                });
+            });
+            
+            // Обработчик для чекбокса радиуса
+            document.getElementById('useRadius').addEventListener('change', function() {
+                const radiusGroup = document.getElementById('radiusGroup');
+                if (this.checked) {
+                    radiusGroup.style.display = 'block';
+                } else {
+                    radiusGroup.style.display = 'none';
+                }
+                calculate();
+            });
+            
+            // Обработчики для кнопок очистки
+            document.querySelectorAll('.clear-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetId = btn.dataset.target;
+                    const input = document.getElementById(targetId);
+                    input.value = '';
+                    input.focus();
+                    calculate();
+                });
+            });
+            
+            // Обработчики для полей ввода
+            const inputs = ['diameterD', 'diameterD1', 'angle', 'lengthL1', 'toolRadius'];
+            inputs.forEach(id => {
+                const input = document.getElementById(id);
+                if (input) {
+                    input.addEventListener('input', calculate);
+                    input.addEventListener('blur', function() {
+                        let value = this.value.trim();
+                        value = value.replace('мм', '').replace(',', '.').trim();
+                        
+                        if (value && !isNaN(parseFloat(value))) {
+                            this.value = parseFloat(value).toString();
+                        } else if (value) {
+                            this.value = '';
+                        }
+                        calculate();
+                    });
+                }
+            });
+            
+            // Кнопка расчета
+            document.getElementById('calculateBtn').addEventListener('click', calculate);
+            
+            // Кнопка копирования G-кода
+            document.getElementById('copyGCode').addEventListener('click', function() {
+                const gcode = document.getElementById('gCodePreview').textContent;
+                navigator.clipboard.writeText(gcode).then(() => {
+                    const originalHTML = this.innerHTML;
+                    this.innerHTML = '<i class="fas fa-check"></i>';
+                    this.title = 'Скопировано!';
+                    
+                    setTimeout(() => {
+                        this.innerHTML = originalHTML;
+                        this.title = 'Копировать';
+                    }, 2000);
+                });
+            });
+            
+            // Первоначальный расчет
+            calculate();
+        });
+    </script>
+</body>
+</html>

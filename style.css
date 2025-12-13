@@ -1,0 +1,731 @@
+/* Сброс и базовые стили */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+    min-height: 100vh;
+    color: #2c3e50;
+    line-height: 1.5;
+}
+
+.container {
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Шапка */
+.header {
+    background: linear-gradient(135deg, #1a2980 0%, #26d0ce 100%);
+    color: white;
+    border-radius: 16px;
+    padding: 25px 35px;
+    margin-bottom: 25px;
+    box-shadow: 0 10px 30px rgba(26, 41, 128, 0.2);
+}
+
+.header-content {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.logo i {
+    font-size: 36px;
+    color: #4dffea;
+}
+
+.logo h1 {
+    font-size: 30px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+}
+
+.tagline {
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.85);
+    margin-left: 54px;
+    font-weight: 400;
+}
+
+/* Основной контент */
+.main-content {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 25px;
+    margin-bottom: 25px;
+}
+
+@media (max-width: 1200px) {
+    .main-content {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Панели */
+.input-panel, .results-panel {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+}
+
+.panel-header {
+    background: linear-gradient(135deg, #3498db 0%, #2c80b4 100%);
+    color: white;
+    padding: 22px 30px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.panel-header i {
+    font-size: 22px;
+}
+
+.panel-header h2 {
+    font-size: 22px;
+    font-weight: 600;
+    flex-grow: 1;
+}
+
+.header-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.action-btn {
+    background: rgba(255, 255, 255, 0.15);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 16px;
+}
+
+.action-btn:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: translateY(-1px);
+}
+
+/* Инструкция */
+.instruction {
+    background: #e8f4fc;
+    border-radius: 10px;
+    padding: 15px 20px;
+    margin: 20px 30px 10px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-left: 4px solid #3498db;
+}
+
+.instruction i {
+    color: #3498db;
+    font-size: 18px;
+}
+
+.instruction p {
+    font-size: 15px;
+    color: #2c3e50;
+    font-weight: 500;
+}
+
+.instruction strong {
+    color: #e74c3c;
+}
+
+/* Поля ввода */
+.input-fields {
+    padding: 25px 30px 30px;
+}
+
+.input-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+    margin-bottom: 25px;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.input-group label {
+    font-weight: 600;
+    color: #2c3e50;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.input-group label i {
+    color: #3498db;
+    width: 20px;
+    text-align: center;
+}
+
+.input-group input {
+    padding: 15px 18px;
+    border: 2px solid #e0e6ed;
+    border-radius: 12px;
+    font-size: 16px;
+    transition: all 0.3s;
+    background: #f8fafc;
+    color: #2c3e50;
+    font-weight: 500;
+}
+
+.input-group input:focus {
+    outline: none;
+    border-color: #3498db;
+    background: white;
+    box-shadow: 0 0 0 4px rgba(52, 152, 219, 0.15);
+}
+
+.input-group input::placeholder {
+    color: #a0aec0;
+    font-weight: normal;
+}
+
+.input-hint {
+    font-size: 13px;
+    color: #718096;
+    margin-top: 4px;
+    font-style: italic;
+}
+
+/* Чекбокс */
+.checkbox-container {
+    margin: 25px 0 20px;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    font-weight: 600;
+    color: #2c3e50;
+    font-size: 16px;
+    padding: 12px 15px;
+    background: #f0f7ff;
+    border-radius: 10px;
+    border: 2px solid #d1e3f8;
+    transition: all 0.3s;
+}
+
+.checkbox-label:hover {
+    border-color: #3498db;
+    background: #e8f4fc;
+}
+
+.checkbox-label i {
+    color: #e74c3c;
+}
+
+.checkbox-custom {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #3498db;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.checkbox-container input[type="checkbox"] {
+    display: none;
+}
+
+.checkbox-container input[type="checkbox"]:checked + .checkbox-label .checkbox-custom {
+    background: #3498db;
+}
+
+.checkbox-container input[type="checkbox"]:checked + .checkbox-label .checkbox-custom::after {
+    content: "✓";
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.radius-group {
+    margin-top: 20px;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Выбор типа угла */
+.angle-type-selector {
+    margin: 25px 0;
+    padding: 20px;
+    background: #f8fafc;
+    border-radius: 12px;
+    border: 2px solid #e0e6ed;
+}
+
+.selector-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 15px;
+    font-size: 16px;
+}
+
+.selector-label i {
+    color: #f39c12;
+}
+
+.angle-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.angle-btn {
+    background: white;
+    border: 2px solid #e0e6ed;
+    border-radius: 10px;
+    padding: 20px 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.angle-btn:hover {
+    border-color: #3498db;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(52, 152, 219, 0.1);
+}
+
+.angle-btn.active {
+    border-color: #3498db;
+    background: #e8f4fc;
+    box-shadow: 0 5px 15px rgba(52, 152, 219, 0.15);
+}
+
+.angle-visual {
+    width: 80px;
+    height: 50px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.angle-line-h, .angle-line-v, .angle-line-d, .angle-line-dv {
+    position: absolute;
+    background: #3498db;
+}
+
+.angle-line-h {
+    width: 60px;
+    height: 2px;
+    bottom: 15px;
+    left: 10px;
+}
+
+.angle-line-v {
+    width: 2px;
+    height: 30px;
+    bottom: 15px;
+    left: 40px;
+}
+
+.angle-line-d {
+    width: 45px;
+    height: 2px;
+    bottom: 15px;
+    left: 10px;
+    transform-origin: left;
+    transform: rotate(45deg);
+}
+
+.angle-line-dv {
+    width: 45px;
+    height: 2px;
+    bottom: 15px;
+    left: 35px;
+    transform-origin: left;
+    transform: rotate(135deg);
+}
+
+.angle-alpha {
+    position: absolute;
+    top: 5px;
+    right: 15px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #e74c3c;
+}
+
+.angle-btn span {
+    font-weight: 600;
+    color: #2c3e50;
+    font-size: 15px;
+}
+
+/* Кнопка расчета */
+.calculate-btn {
+    width: 100%;
+    padding: 18px;
+    background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 10px;
+    box-shadow: 0 6px 20px rgba(46, 204, 113, 0.25);
+}
+
+.calculate-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(46, 204, 113, 0.35);
+}
+
+.calculate-btn:active {
+    transform: translateY(-1px);
+}
+
+/* Правая панель */
+.results-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+/* Визуализация */
+.visualization-section {
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+}
+
+.canvas-wrapper {
+    padding: 20px;
+    text-align: center;
+}
+
+canvas {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    background: #f8fafc;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.canvas-info {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    margin-top: 20px;
+    padding: 15px;
+    background: #f8fafc;
+    border-radius: 10px;
+    border: 1px solid #e0e6ed;
+}
+
+.info-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.info-label {
+    font-size: 14px;
+    color: #718096;
+    font-weight: 600;
+}
+
+.info-value {
+    font-size: 18px;
+    font-weight: 700;
+    color: #2c3e50;
+}
+
+/* Результаты расчета */
+.results-section {
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+}
+
+.results-grid {
+    padding: 25px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+@media (max-width: 1400px) {
+    .results-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.result-card {
+    background: linear-gradient(135deg, #f8fafc 0%, #edf2f7 100%);
+    border-radius: 14px;
+    padding: 25px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    border: 2px solid #e0e6ed;
+    transition: all 0.3s;
+}
+
+.result-card:hover {
+    border-color: #3498db;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(52, 152, 219, 0.15);
+}
+
+.result-icon {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 24px;
+}
+
+.result-content {
+    flex-grow: 1;
+}
+
+.result-label {
+    font-size: 14px;
+    color: #718096;
+    font-weight: 600;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.result-value {
+    font-size: 32px;
+    font-weight: 700;
+    color: #2c3e50;
+    line-height: 1;
+    margin-bottom: 5px;
+}
+
+.result-unit {
+    font-size: 14px;
+    color: #3498db;
+    font-weight: 600;
+}
+
+/* Информация о коррекции */
+.correction-info {
+    padding: 0 25px 25px;
+}
+
+.correction-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #e0e6ed;
+}
+
+.correction-header i {
+    color: #e74c3c;
+    font-size: 20px;
+}
+
+.correction-header h3 {
+    font-size: 18px;
+    color: #2c3e50;
+    font-weight: 600;
+}
+
+.correction-details {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.correction-item {
+    background: white;
+    border: 2px solid #e0e6ed;
+    border-radius: 10px;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s;
+}
+
+.correction-item:hover {
+    border-color: #3498db;
+}
+
+.correction-item span:first-child {
+    font-weight: 600;
+    color: #718096;
+    font-size: 15px;
+}
+
+.correction-item span:last-child {
+    font-weight: 700;
+    color: #2c3e50;
+    font-size: 16px;
+}
+
+/* G-код секция */
+.gcode-section {
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+}
+
+.gcode-container {
+    padding: 20px;
+}
+
+#gCodePreview {
+    background: #1a1e2c;
+    color: #c5c8d6;
+    padding: 25px;
+    border-radius: 10px;
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 15px;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    overflow-x: auto;
+    min-height: 200px;
+    max-height: 350px;
+    overflow-y: auto;
+    border: 1px solid #2d3748;
+}
+
+.gcode-footer {
+    padding: 15px 20px;
+    background: #fff8e1;
+    border-top: 1px solid #f1c40f;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #d35400;
+    font-size: 14px;
+}
+
+.gcode-footer i {
+    color: #f39c12;
+}
+
+/* Футер */
+.footer {
+    text-align: center;
+    padding: 25px;
+    color: #718096;
+    font-size: 14px;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    margin-top: 20px;
+}
+
+.footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 20px;
+}
+
+.footer-link {
+    color: #3498db;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+.footer-link:hover {
+    color: #2980b9;
+}
+
+.footer-link i {
+    font-size: 16px;
+}
+
+.input-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.clear-btn {
+    background: #e74c3c;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 12px;
+    transition: all 0.2s;
+    opacity: 0.7;
+}
+
+.clear-btn:hover {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+.clear-btn i {
+    font-size: 10px;
+}
