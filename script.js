@@ -2,18 +2,15 @@
 // ОСНОВНЫЕ ФУНКЦИИ
 // ============================================
 
-// Преобразование градусов в радианы
 function toRadians(degrees) {
     return degrees * Math.PI / 180;
 }
 
-// Форматирование числа
 function formatNumber(num, decimals = 3) {
     if (num === null || isNaN(num)) return '-';
     return num.toFixed(decimals);
 }
 
-// Парсинг числа
 function parseNumber(value) {
     if (!value || value.trim() === '') return null;
     
@@ -26,7 +23,6 @@ function parseNumber(value) {
     return isNaN(num) ? null : num;
 }
 
-// Получение рабочего угла
 function getBetaAngle(inputAngle, angleType) {
     if (angleType === 'face') {
         return inputAngle;
@@ -35,9 +31,8 @@ function getBetaAngle(inputAngle, angleType) {
     }
 }
 
-// Получение типа угла
 function getAngleType() {
-    const activeBtn = document.querySelector('.angle-btn.active');
+    const activeBtn = document.querySelector('.compact-btn.active');
     return activeBtn ? activeBtn.dataset.type : 'face';
 }
 
@@ -45,7 +40,6 @@ function getAngleType() {
 // МАТЕМАТИЧЕСКИЕ РАСЧЕТЫ
 // ============================================
 
-// Расчет D
 function calculateMissingD(D1, angle, L1) {
     const angleType = getAngleType();
     const beta = getBetaAngle(angle, angleType);
@@ -56,7 +50,6 @@ function calculateMissingD(D1, angle, L1) {
     return { D, D1, angle, L1, deltaR };
 }
 
-// Расчет D1
 function calculateMissingD1(D, angle, L1) {
     const angleType = getAngleType();
     const beta = getBetaAngle(angle, angleType);
@@ -67,7 +60,6 @@ function calculateMissingD1(D, angle, L1) {
     return { D, D1, angle, L1, deltaR };
 }
 
-// Расчет угла
 function calculateMissingAngle(D, D1, L1) {
     const deltaR = (D - D1) / 2;
     const angleRad = Math.atan(deltaR / L1);
@@ -78,7 +70,6 @@ function calculateMissingAngle(D, D1, L1) {
     return { D, D1, angle, L1, deltaR };
 }
 
-// Расчет L1
 function calculateMissingL1(D, D1, angle) {
     const angleType = getAngleType();
     const beta = getBetaAngle(angle, angleType);
@@ -93,7 +84,6 @@ function calculateMissingL1(D, D1, angle) {
 // ВИЗУАЛИЗАЦИЯ
 // ============================================
 
-// Рисование фаски
 function drawChamfer(result) {
     const canvas = document.getElementById('chamferCanvas');
     const ctx = canvas.getContext('2d');
@@ -115,27 +105,27 @@ function drawChamfer(result) {
     
     // Масштаб
     const maxDiameter = Math.max(D, D1);
-    const scale = Math.min(width / (maxDiameter + 100), height / 150);
+    const scale = Math.min(width / (maxDiameter + 80), height / 120);
     
     const centerY = height / 2;
-    const startX = 80;
+    const startX = 60;
     
     // Основной цилиндр (D)
     const mainRadius = D / 2 * scale;
     ctx.fillStyle = '#e0e0e0';
-    ctx.fillRect(startX, centerY - mainRadius, 120, mainRadius * 2);
+    ctx.fillRect(startX, centerY - mainRadius, 100, mainRadius * 2);
     
     // Цилиндр после фаски (D1)
     const endRadius = D1 / 2 * scale;
     ctx.fillStyle = '#d0d0d0';
-    ctx.fillRect(startX + 120, centerY - endRadius, 80, endRadius * 2);
+    ctx.fillRect(startX + 100, centerY - endRadius, 60, endRadius * 2);
     
     // Фаска
     ctx.beginPath();
-    ctx.moveTo(startX + 120, centerY - mainRadius);
-    ctx.lineTo(startX + 120 + L1 * 25 * scale, centerY - endRadius);
-    ctx.lineTo(startX + 120 + L1 * 25 * scale, centerY + endRadius);
-    ctx.lineTo(startX + 120, centerY + mainRadius);
+    ctx.moveTo(startX + 100, centerY - mainRadius);
+    ctx.lineTo(startX + 100 + L1 * 20 * scale, centerY - endRadius);
+    ctx.lineTo(startX + 100 + L1 * 20 * scale, centerY + endRadius);
+    ctx.lineTo(startX + 100, centerY + mainRadius);
     ctx.closePath();
     ctx.fillStyle = 'rgba(52, 152, 219, 0.3)';
     ctx.fill();
@@ -146,57 +136,32 @@ function drawChamfer(result) {
     // Осевая линия
     ctx.beginPath();
     ctx.setLineDash([5, 3]);
-    ctx.moveTo(40, centerY);
-    ctx.lineTo(width - 40, centerY);
+    ctx.moveTo(30, centerY);
+    ctx.lineTo(width - 30, centerY);
     ctx.strokeStyle = '#7f8c8d';
     ctx.lineWidth = 1;
     ctx.stroke();
     ctx.setLineDash([]);
     
-    // Показать радиус инструмента если нужно
-    const showRadius = document.getElementById('showRadius').checked;
-    const toolRadius = parseNumber(document.getElementById('toolRadius').value) || 0;
-    
-    if (showRadius && toolRadius > 0) {
-        const toolScale = 6;
-        const toolX = startX + 120 + L1 * 12.5 * scale;
-        const toolY = centerY - mainRadius + 25;
-        
-        ctx.beginPath();
-        ctx.arc(toolX, toolY, toolRadius * toolScale, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(231, 76, 60, 0.2)';
-        ctx.fill();
-        ctx.strokeStyle = '#e74c3c';
-        ctx.lineWidth = 1.5;
-        ctx.stroke();
-        
-        // Подпись радиуса
-        ctx.fillStyle = '#e74c3c';
-        ctx.font = 'bold 12px Arial';
-        ctx.textAlign = 'center';
-        ctx.fillText(`R=${toolRadius}`, toolX, toolY - toolRadius * toolScale - 5);
-    }
-    
     // Размерные линии
-    drawDimension(ctx, startX + 120, centerY - mainRadius - 20,
-                 startX + 120 + L1 * 25 * scale, centerY - mainRadius - 20,
+    drawDimension(ctx, startX + 100, centerY - mainRadius - 15,
+                 startX + 100 + L1 * 20 * scale, centerY - mainRadius - 15,
                  `L1 = ${formatNumber(L1, 3)}`);
     
-    drawDimension(ctx, startX - 30, centerY - mainRadius,
-                 startX - 30, centerY + mainRadius,
+    drawDimension(ctx, startX - 20, centerY - mainRadius,
+                 startX - 20, centerY + mainRadius,
                  `D = ${formatNumber(D, 3)}`);
     
-    drawDimension(ctx, startX + 120 + L1 * 25 * scale + 30, centerY - endRadius,
-                 startX + 120 + L1 * 25 * scale + 30, centerY + endRadius,
+    drawDimension(ctx, startX + 100 + L1 * 20 * scale + 20, centerY - endRadius,
+                 startX + 100 + L1 * 20 * scale + 20, centerY + endRadius,
                  `D1 = ${formatNumber(D1, 3)}`);
     
     // Угол
-    drawAngle(ctx, startX + 120, centerY - mainRadius, 
-             L1 * 20 * scale, toRadians(beta),
+    drawAngle(ctx, startX + 100, centerY - mainRadius, 
+             L1 * 15 * scale, toRadians(beta),
              `${formatNumber(result.angle, 1)}°`);
 }
 
-// Рисование размерной линии
 function drawDimension(ctx, x1, y1, x2, y2, text) {
     // Линия
     ctx.beginPath();
@@ -212,14 +177,13 @@ function drawDimension(ctx, x1, y1, x2, y2, text) {
     
     // Текст
     ctx.fillStyle = '#2c3e50';
-    ctx.font = '12px Arial';
+    ctx.font = '11px Arial';
     ctx.textAlign = 'center';
-    ctx.fillText(text, (x1 + x2) / 2, y1 - 8);
+    ctx.fillText(text, (x1 + x2) / 2, y1 - 6);
 }
 
-// Рисование стрелки
 function drawArrow(ctx, fromX, fromY, toX, toY) {
-    const headlen = 8;
+    const headlen = 6;
     const dx = toX - fromX;
     const dy = toY - fromY;
     const angle = Math.atan2(dy, dx);
@@ -234,7 +198,6 @@ function drawArrow(ctx, fromX, fromY, toX, toY) {
     ctx.stroke();
 }
 
-// Рисование угла
 function drawAngle(ctx, x, y, length, angleRad, text) {
     const endX = x + length * Math.cos(angleRad);
     const endY = y - length * Math.sin(angleRad);
@@ -249,34 +212,57 @@ function drawAngle(ctx, x, y, length, angleRad, text) {
     
     // Дуга
     ctx.beginPath();
-    ctx.arc(x, y, 25, -Math.PI/2, -Math.PI/2 + angleRad, false);
+    ctx.arc(x, y, 20, -Math.PI/2, -Math.PI/2 + angleRad, false);
     ctx.strokeStyle = '#e74c3c';
     ctx.lineWidth = 1.5;
     ctx.stroke();
     
     // Текст угла
     ctx.fillStyle = '#e74c3c';
-    ctx.font = 'bold 14px Arial';
+    ctx.font = 'bold 12px Arial';
     ctx.textAlign = 'center';
-    ctx.fillText(text, x + 20, y - 30);
+    ctx.fillText(text, x + 15, y - 25);
 }
 
 // ============================================
-// ОБНОВЛЕНИЕ РЕЗУЛЬТАТОВ
+// ОБНОВЛЕНИЕ РЕЗУЛЬТАТОВ И G-КОДА
 // ============================================
 
-// Обновление результатов
 function updateResults(result) {
+    // Обновляем результаты
     document.getElementById('resultD1').textContent = formatNumber(result.D1, 3);
     document.getElementById('resultL1').textContent = formatNumber(result.L1, 3);
-    document.getElementById('resultDeltaR').textContent = formatNumber(result.deltaR, 3);
-    document.getElementById('resultZ').textContent = `-${formatNumber(result.L1, 3)}`;
+    
+    // Обновляем пустое поле ввода
+    updateEmptyField(result);
 }
 
-// Генерация G-кода
+function updateEmptyField(result) {
+    const inputs = {
+        diameterD: result.D,
+        diameterD1: result.D1,
+        angle: result.angle,
+        lengthL1: result.L1
+    };
+    
+    // Находим пустое поле и заполняем его
+    for (const [id, value] of Object.entries(inputs)) {
+        const input = document.getElementById(id);
+        if (input && !input.value.trim()) {
+            input.value = formatNumber(value, 3);
+        }
+    }
+}
+
 function generateGCode(result) {
-    const safeX = (result.D + 5).toFixed(3);
-    const safeZ = 2.0;
+    // Определяем меньший и больший диаметры
+    const Dmin = Math.min(result.D, result.D1);
+    const Dmax = Math.max(result.D, result.D1);
+    const isD1Smaller = result.D1 < result.D;
+    
+    // Безопасные координаты - ИСПРАВЛЕНО: D + 0.5 вместо D1 + 0.5
+    const safeX = (result.D + 0.5).toFixed(3); // D + 0.5 мм
+    const safeZ = -1.0;
     
     let gcode = `// ФАСКА БЕЗ УЧЕТА РАДИУСА ИНСТРУМЕНТА\n`;
     gcode += `// Параметры:\n`;
@@ -285,28 +271,29 @@ function generateGCode(result) {
     gcode += `// α = ${formatNumber(result.angle, 1)}° ${getAngleType() === 'face' ? 'от торца' : 'от оси'}\n`;
     gcode += `// L1 = ${formatNumber(result.L1, 3)} мм\n\n`;
     
-    gcode += `// БЕЗОПАСНЫЙ ПОДХОД\n`;
+    gcode += `// БЕЗОПАСНЫЙ ПОДХОД (D + 0.5 мм)\n`;
     gcode += `G00 X${safeX} Z${safeZ};\n`;
     gcode += `G01 Z0.0 F0.1;\n\n`;
     
     gcode += `// ОБРАБОТКА ФАСКИ\n`;
-    gcode += `X${formatNumber(result.D, 3)} Z0.0;\n`;
-    gcode += `X${formatNumber(result.D1, 3)} Z-${formatNumber(result.L1, 3)};\n\n`;
-    
-    gcode += `// ПРОДОЛЖЕНИЕ ОБРАБОТКИ\n`;
-    gcode += `Z-${(result.L1 + 10).toFixed(3)};`;
+    if (isD1Smaller) {
+        // D1 < D: от меньшего к большему
+        gcode += `G01 X${formatNumber(result.D1, 3)} F0.5;\n`;
+        gcode += `X${formatNumber(result.D, 3)} Z-${formatNumber(result.L1, 3)};`;
+    } else {
+        // D1 > D: от меньшего к большему (обратный случай)
+        gcode += `G01 X${formatNumber(result.D, 3)} F0.5;\n`;
+        gcode += `X${formatNumber(result.D1, 3)} Z-${formatNumber(result.L1, 3)};`;
+    }
     
     document.getElementById('gCodePreview').textContent = gcode;
 }
 
-// Показать сообщение
 function showMessage(message) {
     document.getElementById('gCodePreview').textContent = `// ${message}\n\n// Введите любые 3 параметра:\n// - Начальный диаметр D\n// - Конечный диаметр D1\n// - Угол фаски α\n// - Длину фаски L1`;
     
     document.getElementById('resultD1').textContent = '-';
     document.getElementById('resultL1').textContent = '-';
-    document.getElementById('resultDeltaR').textContent = '-';
-    document.getElementById('resultZ').textContent = '-';
     
     // Очищаем canvas
     const canvas = document.getElementById('chamferCanvas');
@@ -315,7 +302,7 @@ function showMessage(message) {
     ctx.fillStyle = '#f8f9fa';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = '#95a5a6';
-    ctx.font = '16px Arial';
+    ctx.font = '14px Arial';
     ctx.textAlign = 'center';
     ctx.fillText(message, canvas.width/2, canvas.height/2);
 }
@@ -346,8 +333,8 @@ function calculate() {
         return;
     }
     
-    if (D !== null && D1 !== null && D <= D1) {
-        showMessage('Начальный диаметр D должен быть больше конечного D1');
+    if (D !== null && D1 !== null && D === D1) {
+        showMessage('Диаметры D и D1 не должны быть равны');
         return;
     }
     
@@ -363,7 +350,10 @@ function calculate() {
     else if (D1 === null) result = calculateMissingD1(D, angle, L1);
     else if (angle === null) result = calculateMissingAngle(D, D1, L1);
     else if (L1 === null) result = calculateMissingL1(D, D1, angle);
-    else result = calculateMissingD1(D, angle, L1);
+    else {
+        // Все заполнено, пересчитываем D1
+        result = calculateMissingD1(D, angle, L1);
+    }
     
     // Обновляем интерфейс
     updateResults(result);
@@ -381,27 +371,15 @@ function calculate() {
 
 document.addEventListener('DOMContentLoaded', function() {
     // Обработчики для кнопок типа угла
-    document.querySelectorAll('.angle-btn').forEach(btn => {
+    document.querySelectorAll('.compact-btn').forEach(btn => {
         btn.addEventListener('click', () => {
-            document.querySelectorAll('.angle-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.compact-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
             calculate();
         });
     });
     
-    // Обработчики для кнопок очистки
-    document.querySelectorAll('.clear-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            e.preventDefault();
-            const targetId = btn.dataset.target;
-            const input = document.getElementById(targetId);
-            input.value = '';
-            input.focus();
-            calculate();
-        });
-    });
-    
-    // Обработчики для полей ввода
+    // Обработчики для полей ввода (автоматический расчет)
     const inputIds = ['diameterD', 'diameterD1', 'angle', 'lengthL1', 'toolRadius'];
     inputIds.forEach(id => {
         const input = document.getElementById(id);
@@ -413,29 +391,46 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 if (value && !isNaN(parseFloat(value))) {
                     this.value = parseFloat(value).toString();
+                    calculate();
                 } else if (value) {
                     this.value = '';
+                    calculate();
                 }
-                calculate();
             });
         }
     });
     
-    // Чекбокс показа радиуса
-    document.getElementById('showRadius').addEventListener('change', calculate);
-    
-    // Кнопка расчета
+    // Кнопка обновления расчета
     document.getElementById('calculateBtn').addEventListener('click', calculate);
+    
+    // Кнопка очистки всех полей
+    document.getElementById('refreshBtn').addEventListener('click', function() {
+        // Очищаем все поля ввода
+        document.getElementById('diameterD').value = '';
+        document.getElementById('diameterD1').value = '';
+        document.getElementById('angle').value = '';
+        document.getElementById('lengthL1').value = '';
+        document.getElementById('toolRadius').value = '0.4';
+        
+        // Сбрасываем тип угла к торцу
+        document.querySelectorAll('.compact-btn').forEach(b => b.classList.remove('active'));
+        document.querySelector('.compact-btn[data-type="face"]').classList.add('active');
+        
+        // Обновляем интерфейс
+        showMessage('Введите параметры для расчета');
+    });
     
     // Кнопка копирования G-кода
     document.getElementById('copyGCode').addEventListener('click', function() {
         const gcode = document.getElementById('gCodePreview').textContent;
         navigator.clipboard.writeText(gcode).then(() => {
-            const originalText = this.innerHTML;
-            this.innerHTML = '<i class="fas fa-check"></i> Скопировано!';
+            const originalHTML = this.innerHTML;
+            this.innerHTML = '<i class="fas fa-check"></i>';
+            this.title = 'Скопировано!';
             
             setTimeout(() => {
-                this.innerHTML = originalText;
+                this.innerHTML = originalHTML;
+                this.title = 'Копировать';
             }, 2000);
         }).catch(err => {
             console.error('Ошибка копирования:', err);

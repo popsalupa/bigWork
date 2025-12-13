@@ -21,10 +21,10 @@
         <!-- Основной контент -->
         <div class="main-content">
             <!-- Левая панель: Ввод данных -->
-            <div class="panel">
+            <div class="panel input-panel">
                 <div class="panel-header">
                     <i class="fas fa-edit"></i>
-                    <h2>Ввод параметров</h2>
+                    <h2>Параметры фаски</h2>
                 </div>
 
                 <div class="input-fields">
@@ -35,16 +35,14 @@
                     </div>
 
                     <!-- Поля ввода -->
-                    <div class="input-row">
+                    <div class="input-grid">
                         <div class="input-group">
                             <div class="input-header">
                                 <label for="diameterD">
                                     <i class="fas fa-circle"></i>
-                                    Начальный диаметр D (мм)
+                                    D (мм)
                                 </label>
-                                <button class="clear-btn" data-target="diameterD" title="Очистить">
-                                    <i class="fas fa-times"></i>
-                                </button>
+                                <div class="input-hint">Начальный диаметр</div>
                             </div>
                             <input type="text" id="diameterD" placeholder="50.0">
                         </div>
@@ -53,26 +51,20 @@
                             <div class="input-header">
                                 <label for="diameterD1">
                                     <i class="fas fa-circle-notch"></i>
-                                    Конечный диаметр D1 (мм)
+                                    D1 (мм)
                                 </label>
-                                <button class="clear-btn" data-target="diameterD1" title="Очистить">
-                                    <i class="fas fa-times"></i>
-                                </button>
+                                <div class="input-hint">Конечный диаметр</div>
                             </div>
                             <input type="text" id="diameterD1" placeholder="46.0">
                         </div>
-                    </div>
 
-                    <div class="input-row">
                         <div class="input-group">
                             <div class="input-header">
                                 <label for="angle">
                                     <i class="fas fa-angle-right"></i>
-                                    Угол фаски α (°)
+                                    α (°)
                                 </label>
-                                <button class="clear-btn" data-target="angle" title="Очистить">
-                                    <i class="fas fa-times"></i>
-                                </button>
+                                <div class="input-hint">Угол фаски</div>
                             </div>
                             <input type="text" id="angle" placeholder="45.0">
                         </div>
@@ -81,60 +73,53 @@
                             <div class="input-header">
                                 <label for="lengthL1">
                                     <i class="fas fa-ruler-horizontal"></i>
-                                    Длина фаски L1 (мм)
+                                    L1 (мм)
                                 </label>
-                                <button class="clear-btn" data-target="lengthL1" title="Очистить">
-                                    <i class="fas fa-times"></i>
-                                </button>
+                                <div class="input-hint">Длина фаски</div>
                             </div>
                             <input type="text" id="lengthL1" placeholder="2.0">
                         </div>
                     </div>
 
-                    <!-- Чекбокс радиуса (только визуализация) -->
-                    <div class="checkbox-group">
-                        <label>
-                            <input type="checkbox" id="showRadius">
-                            <i class="fas fa-toolbox"></i>
-                            Показать радиус инструмента на схеме
-                        </label>
-                        <div class="radius-input">
-                            <input type="text" id="toolRadius" placeholder="0.4">
-                            <small>Радиус вершины инструмента (только для визуализации)</small>
+                    <!-- Компактные настройки -->
+                    <div class="compact-settings">
+                        <!-- Радиус инструмента -->
+                        <div class="compact-group">
+                            <div class="compact-header">
+                                <i class="fas fa-toolbox"></i>
+                                <span>Радиус инструмента</span>
+                            </div>
+                            <input type="text" id="toolRadius" placeholder="0.4" value="0.4">
+                        </div>
+
+                        <!-- Тип угла -->
+                        <div class="compact-group">
+                            <div class="compact-header">
+                                <i class="fas fa-compass"></i>
+                                <span>Отсчет угла от:</span>
+                            </div>
+                            <div class="compact-buttons">
+                                <button class="compact-btn active" data-type="face">
+                                    Торца
+                                </button>
+                                <button class="compact-btn" data-type="axis">
+                                    Оси
+                                </button>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- Выбор типа угла -->
-                    <div class="angle-type-selector">
-                        <div class="selector-label">
-                            <i class="fas fa-compass"></i>
-                            Отсчет угла от:
-                        </div>
-                        <div class="angle-buttons">
-                            <button class="angle-btn active" data-type="face">
-                                <div class="angle-visual">
-                                    <div class="angle-line horizontal"></div>
-                                    <div class="angle-line diagonal"></div>
-                                    <span class="angle-alpha">α</span>
-                                </div>
-                                <span>Торца</span>
-                            </button>
-                            <button class="angle-btn" data-type="axis">
-                                <div class="angle-visual">
-                                    <div class="angle-line vertical"></div>
-                                    <div class="angle-line diagonal-vert"></div>
-                                    <span class="angle-alpha">α</span>
-                                </div>
-                                <span>Оси</span>
-                            </button>
-                        </div>
+                    <!-- Кнопки управления -->
+                    <div class="action-buttons">
+                        <button class="action-btn refresh-btn" id="refreshBtn">
+                            <i class="fas fa-redo"></i>
+                            Очистить все
+                        </button>
+                        <button class="action-btn calculate-btn" id="calculateBtn">
+                            <i class="fas fa-calculator"></i>
+                            Обновить расчет
+                        </button>
                     </div>
-
-                    <!-- Кнопка расчета -->
-                    <button class="calculate-btn" id="calculateBtn">
-                        <i class="fas fa-calculator"></i>
-                        Рассчитать
-                    </button>
                 </div>
             </div>
 
@@ -155,31 +140,29 @@
                 <div class="panel">
                     <div class="panel-header">
                         <i class="fas fa-chart-bar"></i>
-                        <h2>Результаты</h2>
+                        <h2>Результаты расчета</h2>
                     </div>
                     <div class="results-display">
                         <div class="result-box">
-                            <div class="result-label">Конечный диаметр</div>
-                            <div class="result-value" id="resultD1">-</div>
-                            <div class="result-unit">D1 (мм)</div>
+                            <div class="result-icon">
+                                <i class="fas fa-circle-notch"></i>
+                            </div>
+                            <div class="result-content">
+                                <div class="result-label">Конечный диаметр</div>
+                                <div class="result-value" id="resultD1">-</div>
+                                <div class="result-unit">D1 (мм)</div>
+                            </div>
                         </div>
                         
                         <div class="result-box">
-                            <div class="result-label">Длина фаски</div>
-                            <div class="result-value" id="resultL1">-</div>
-                            <div class="result-unit">L1 (мм)</div>
-                        </div>
-                        
-                        <div class="result-box">
-                            <div class="result-label">Уменьшение радиуса</div>
-                            <div class="result-value" id="resultDeltaR">-</div>
-                            <div class="result-unit">ΔR (мм)</div>
-                        </div>
-                        
-                        <div class="result-box">
-                            <div class="result-label">Координата Z</div>
-                            <div class="result-value" id="resultZ">-</div>
-                            <div class="result-unit">(мм)</div>
+                            <div class="result-icon">
+                                <i class="fas fa-ruler-horizontal"></i>
+                            </div>
+                            <div class="result-content">
+                                <div class="result-label">Длина фаски</div>
+                                <div class="result-value" id="resultL1">-</div>
+                                <div class="result-unit">L1 (мм)</div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -189,12 +172,12 @@
                     <div class="panel-header">
                         <i class="fas fa-code"></i>
                         <h2>G-код (Fanuc)</h2>
+                        <button class="copy-btn" id="copyGCode" title="Копировать">
+                            <i class="far fa-copy"></i>
+                        </button>
                     </div>
                     <div class="gcode-container">
                         <pre id="gCodePreview">// Введите параметры фаски для расчета</pre>
-                        <button class="copy-btn" id="copyGCode">
-                            <i class="far fa-copy"></i> Копировать G-код
-                        </button>
                     </div>
                 </div>
             </div>
@@ -203,9 +186,6 @@
         <!-- Футер -->
         <footer class="footer">
             <p>© 2024 Калькулятор фаски для ЧПУ | Расчет геометрических параметров</p>
-            <div class="footer-note">
-                <i class="fas fa-lightbulb"></i> Все расчеты производятся без учета радиуса инструмента
-            </div>
         </footer>
     </div>
 
