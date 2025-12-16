@@ -628,15 +628,26 @@ body {
         margin-right: 0;
     }
 }
-
-
-/* Убираем стрелки у числовых полей ввода */
-input[type="number"]::-webkit-inner-spin-button,
-input[type="number"]::-webkit-outer-spin-button {
+/* Оптимизация для мобильной клавиатуры */
+input[type="text"][inputmode="decimal"] {
     -webkit-appearance: none;
-    margin: 0;
+    appearance: none;
 }
 
-input[type="number"] {
-    -moz-appearance: textfield;
+/* Улучшаем видимость плейсхолдеров */
+input::placeholder {
+    color: #adb5bd;
+    opacity: 0.8;
+}
+
+/* Для очень маленьких экранов */
+@media (max-width: 300px) {
+    input {
+        font-size: 14px;
+        padding: 10px;
+    }
+    
+    .input-hint {
+        font-size: 10px;
+    }
 }

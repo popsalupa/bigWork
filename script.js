@@ -41,8 +41,11 @@ function parseNumber(value) {
     if (!value || value.trim() === '') return null;
     
     let str = value.toString().trim();
-    str = str.replace(/мм/g, '');
+    str = str.replace(/[^\d.,-]/g, '');
     str = str.replace(',', '.');
+    if (str.indexOf('-') > 0) {
+        str = str.substring(0, str.indexOf('-')) + str.substring(str.indexOf('-') + 1);
+    }
     str = str.trim();
     
     const num = parseFloat(str);
@@ -549,24 +552,131 @@ document.addEventListener('DOMContentLoaded', function() {
         updateRadiusVisibility(); // Инициализация
     }
     
-    // 7. Ограничение ввода только цифрами (для мобильных)
-    document.querySelectorAll('input[type="number"]').forEach(input => {
-        input.addEventListener('keypress', function(e) {
-            // Разрешаем: цифры, точка, запятая, Backspace, Delete, Tab
-            const allowedKeys = [8, 9, 13, 46, 110, 190, 188]; // Backspace, Tab, Enter, Delete, . (два варианта), ,
-            const charCode = e.which ? e.which : e.keyCode;
-            
-            // Если не цифра и не разрешенная клавиша - блокируем
-            if ((charCode < 48 || charCode > 57) && allowedKeys.indexOf(charCode) === -1) {
-                e.preventDefault();
-            }
-        });
+    // 7. Обработка ввода для мобильных устройств
+document.querySelectorAll('#diameterD, #diameterD1, #angle, #lengthL1, #toolRadius').forEach(input => {
+    // Функция валидации ввода
+    function validateInput(value) {
+        // Разрешаем: цифры, точка, запятая, минус
+        let cleaned = value.replace(/[^\d.,-]/g, '');
         
-        // Замена запятой на точку при вводе
-        input.addEventListener('input', function() {
-            this.value = this.value.replace(',', '.');
-        });
+        // Заменяем запятую на точку
+        cleaned = cleaned.replace(',', '.');
+        
+        // Убираем лишние точки (оставляем только первую)
+        const parts = cleaned.split('.');
+        if (parts.length > 2) {
+            cleaned = parts[0] + '.' + parts.slice(1).join('');
+        }
+        
+        // Убираем лишние минусы (оставляем только первый)
+        if (cleaned.indexOf('-') > 0) {
+            cleaned = cleaned.replace(/-/g, '');
+        }
+        
+        return cleaned;
+    }
+    
+    // Обработчик ввода
+    input.addEventListener('input', function(e) {
+        const cursorPosition = this.selectionStart;
+        const oldValue = this.value;
+        
+        // Валидируем введенное значение
+        const newValue = validateInput(oldValue);
+        
+        if (oldValue !== newValue) {
+            this.value = newValue;
+            
+            // Восстанавливаем позицию курсора
+            const diff = newValue.length - oldValue.length;
+            this.setSelectionRange(cursorPosition + diff, cursorPosition + diff);
+        }
     });
+    
+    // Обработчик вставки (paste)
+    input.addEventListener('paste', function(e) {
+        e.preventDefault();
+        const pastedText = e.clipboardData.getData('text');
+        const validated = validateInput(pastedText);
+        
+        // Вставляем в позицию курсора
+        const start = this.selectionStart;
+        const end = this.selectionEnd;
+        const currentValue = this.value;
+        
+        this.value = currentValue.substring(0, start) + validated + currentValue.substring(end);
+        
+        // Устанавливаем курсор после вставленного текста
+        this.setSelectionRange(start + validated.length, start + validated.length);
+    });
+    
+    // Обработчик потери фокуса - форматируем число
+    input.addEventListener('blur', function() {
+        let value = this.value.trim();
+        
+        if (value) {
+            // Заменяем запятую на точку
+            value = value.replace(',', '.');
+            
+            // Убираем лишние нули в начале
+            value = value.replace(/^0+(\d)/, '$1');
+            
+            // Если число начинается с точки, добавляем 0
+            if (value.startsWith('.')) {
+                value = '0' + value;
+            }
+            
+            // Если пустая строка после точки
+            if (value.endsWith('.')) {
+                value = value.slice(0, -1);
+            }
+            
+            // Парсим число и форматируем
+            const num = parseFloat(value);
+            if (!isNaN(num)) {
+                // Для угла оставляем 1 знак после запятой, для остальных - 3
+                const decimals = this.id === 'angle' ? 1 : 3;
+                this.value = num.toFixed(decimals);
+            } else {
+                this.value = '';
+            }
+            
+            // Если это одно из основных полей, проверяем заполнение
+            if (['diameterD', 'diameterD1', 'angle', 'lengthL1'].includes(this.id)) {
+                checkFieldsForCalculation();
+            }
+        }
+    });
+});
+
+// Функция проверки заполненных полей
+function checkFieldsForCalculation() {
+    const inputs = [
+        document.getElementById('diameterD'),
+        document.getElementById('diameterD1'), 
+        document.getElementById('angle'),
+        document.getElementById('lengthL1')
+    ];
+    
+    // Считаем заполненные поля
+    const filledInputs = inputs.filter(inp => inp.value.trim() !== '');
+    
+    // Если заполнено ровно 3 поля, предлагаем рассчитать 4-е
+    if (filledInputs.length === 3) {
+        const emptyInput = inputs.find(inp => inp.value.trim() === '');
+        if (emptyInput) {
+            // Подсвечиваем пустое поле
+            emptyInput.style.borderColor = '#f39c12';
+            emptyInput.style.backgroundColor = '#fef9e7';
+            
+            // Через секунду убираем подсветку
+            setTimeout(() => {
+                emptyInput.style.borderColor = '';
+                emptyInput.style.backgroundColor = '';
+            }, 1000);
+        }
+    }
+}
     
     // 8. Автозаполнение пустого поля при вводе 3-х параметров
     document.querySelectorAll('#diameterD, #diameterD1, #angle, #lengthL1').forEach(input => {
