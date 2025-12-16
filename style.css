@@ -2,30 +2,30 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
 }
 
 body {
-    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    background: linear-gradient(135deg, #000000 0%, #efd1d1 100%);
     min-height: 100vh;
-    padding: 15px;
+    padding: 10px;
 }
 
 .container {
     width: 100%;
-    max-width: 1200px;
+    max-width: 800px;
     margin: 0 auto;
     background: white;
-    border-radius: 15px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
     overflow: hidden;
 }
 
-/* Шапка */
+/* Шапка - компактная для мобильных */
 .header {
-    background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+    background: linear-gradient(135deg, #292837 0%, #b5179e 100%);
     color: white;
-    padding: 20px;
+    padding: 15px 20px;
     text-align: center;
 }
 
@@ -33,60 +33,45 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 12px;
-    margin-bottom: 8px;
-    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 5px;
 }
 
 .logo i {
-    font-size: 28px;
+    font-size: 24px;
+    color: #4cc9f0;
 }
 
 .logo h1 {
-    font-size: 24px;
+    font-size: 22px;
     font-weight: 700;
 }
 
 .tagline {
-    font-size: 14px;
-    opacity: 0.9;
+    font-size: 13px;
+    opacity: 0.8;
 }
 
 /* Основной контент */
 .main-content {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 20px;
-    padding: 20px;
+    padding: 15px;
 }
 
-@media (min-width: 768px) {
-    .main-content {
-        grid-template-columns: 1fr 1fr;
-    }
-}
-
-.right-panel {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-/* Панели */
+/* Панель ввода */
 .panel {
     background: #f8f9fa;
-    border-radius: 12px;
+    border-radius: 15px;
+    margin-bottom: 15px;
     overflow: hidden;
 }
 
 .panel-header {
-    background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
-    color: white;
-    padding: 16px 20px;
+    background: linear-gradient(135deg, #292837 0%, #b5179e 100%);
+    color: rgb(255, 254, 254);
+    padding: 15px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
+    gap: 10px;
 }
 
 .panel-header i {
@@ -96,293 +81,370 @@ body {
 .panel-header h2 {
     font-size: 18px;
     font-weight: 600;
-    flex-grow: 1;
-    margin-left: 10px;
 }
 
-/* Поля ввода */
-.input-fields {
-    padding: 20px;
-}
-
-.instruction {
-    background: #e8f4fc;
-    padding: 12px 15px;
+/* Кнопка очистки всех полей */
+.clear-all-btn {
+    background: linear-gradient(235deg, #f11717 0%, #292837 100%);
+    color: rgb(255, 255, 255);
+    border: none;
     border-radius: 8px;
-    margin-bottom: 20px;
-    border-left: 4px solid #3498db;
+    padding: 8px 12px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s;
+    margin-left: auto;
+    white-space: nowrap;
+}
+
+.clear-all-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+}
+
+.clear-all-btn:active {
+    transform: translateY(0);
+}
+
+/* Инструкция */
+.instruction {
+    background: #e9ecef;
+    padding: 12px 15px;
+    border-radius: 10px;
+    margin: 15px;
     display: flex;
     align-items: center;
     gap: 10px;
     font-size: 14px;
+    border-left: 4px solid #4361ee;
 }
 
 .instruction i {
-    color: #3498db;
+    color: #4361ee;
 }
 
 .instruction strong {
-    color: #e74c3c;
+    color: #f72585;
 }
 
-.input-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
-    margin-bottom: 20px;
+/* Поля ввода в сетке 2x2 */
+.input-grid-2x2 {
+    padding: 0 15px;
 }
 
-@media (max-width: 480px) {
-    .input-grid {
-        grid-template-columns: 1fr;
-    }
-}
-
-.input-group {
-    margin-bottom: 0;
-}
-
-.input-header {
+.input-row {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 6px;
-    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 15px;
 }
 
-.input-group label {
+.input-with-action {
+    flex: 1;
+    display: flex;
+    gap: 5px;
+    align-items: flex-start;
+}
+
+.input-wrapper {
+    flex: 1;
+}
+
+.input-with-action label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
     font-weight: 600;
-    color: #2c3e50;
+    color: #2b2d42;
     font-size: 14px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
+    margin-bottom: 5px;
+}
+
+.input-with-action input {
+    width: 100%;
+    padding: 6px;
+    border: 2px solid #dee2e6;
+    border-radius: 10px;
+    font-size: 12px;
+    background: white;
+    font-weight: 500;
+    -webkit-appearance: none;
+    -moz-appearance: textfield;
+}
+
+.input-with-action input:focus {
+    outline: none;
+    border-color: #4361ee;
+    box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
 }
 
 .input-hint {
     font-size: 11px;
-    color: #7f8c8d;
+    color: #6c757d;
+    margin-top: 4px;
     font-weight: 500;
 }
 
-.input-group input {
-    width: 100%;
-    padding: 10px 12px;
-    border: 2px solid #ddd;
-    border-radius: 8px;
-    font-size: 15px;
-    background: white;
-    transition: all 0.3s;
-}
-
-.input-group input:focus {
-    outline: none;
-    border-color: #3498db;
-    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
-}
-
-/* Компактные настройки */
-.compact-settings {
-    background: white;
-    padding: 15px;
+/* Кнопки расчета для каждого поля */
+.calc-action-btn {
+    background: linear-gradient(135deg, #59cdff 0%, #623e8d 100%);
+    color: white;
+    border: none;
     border-radius: 10px;
-    border: 2px solid #e0e0e0;
-    margin-bottom: 20px;
+    width: 30px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.2s;
+    margin-top: 22px;
+    flex-shrink: 0;
 }
 
-.compact-group {
-    margin-bottom: 15px;
+.calc-action-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(114, 9, 183, 0.3);
 }
 
-.compact-group:last-child {
-    margin-bottom: 0;
+.calc-action-btn:active {
+    transform: translateY(0);
 }
 
-.compact-header {
+/* Настройки в сетке */
+.settings-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    padding: 15px;
+    background: white;
+    border-radius: 12px;
+    margin: 15px;
+    border: 2px solid #a98c68;
+}
+
+.setting-item {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.setting-header {
     display: flex;
     align-items: center;
     gap: 8px;
-    margin-bottom: 8px;
     font-weight: 600;
-    color: #2c3e50;
+    color: #2b2d42;
     font-size: 14px;
 }
 
-.compact-header i {
-    color: #3498db;
+.setting-header i {
+    color: #4361ee;
 }
 
-.compact-group input {
+.setting-control input,
+.setting-control select {
     width: 100%;
-    padding: 8px 10px;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    font-size: 14px;
-}
-
-.compact-buttons {
-    display: flex;
-    gap: 10px;
-}
-
-.compact-btn {
-    flex: 1;
-    padding: 8px 12px;
-    border: 2px solid #ddd;
-    border-radius: 6px;
-    background: white;
-    color: #2c3e50;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s;
-}
-
-.compact-btn:hover {
-    border-color: #3498db;
-}
-
-.compact-btn.active {
-    border-color: #3498db;
-    background: #e8f4fc;
-    color: #3498db;
-}
-
-/* Кнопки управления */
-.action-buttons {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-}
-
-.action-btn {
-    padding: 12px;
-    border: none;
+    padding: 10px;
+    border: 2px solid #dee2e6;
     border-radius: 8px;
     font-size: 15px;
-    font-weight: 600;
+    background: white;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+}
+
+.setting-control input:focus,
+.setting-control select:focus {
+    outline: none;
+    border-color: #4361ee;
+}
+
+/* Главная кнопка расчета */
+.main-calc-btn {
+    width: calc(100% - 30px);
+    margin: 15px;
+    padding: 18px;
+    background: linear-gradient(135deg, #292837 0%, #b5179e 100%);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: 700;
     cursor: pointer;
     transition: all 0.3s;
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: 12px;
+    letter-spacing: 0.5px;
+}
+
+.main-calc-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(247, 37, 133, 0.3);
+}
+
+.main-calc-btn:active {
+    transform: translateY(-1px);
+}
+
+/* Секция результатов с вкладками */
+.results-section {
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
+
+.tabs {
+    display: flex;
+    background: #f8f9fa;
+    border-bottom: 2px solid #e9ecef;
+}
+
+.tab-btn {
+    flex: 1;
+    padding: 15px 10px;
+    background: none;
+    border: none;
+    color: #6c757d;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     gap: 8px;
+    transition: all 0.3s;
 }
 
-.refresh-btn {
-    background: #95a5a6;
-    color: white;
+.tab-btn.active {
+    color: #4361ee;
+    border-bottom: 3px solid #4361ee;
+    background: white;
 }
 
-.refresh-btn:hover {
-    background: #7f8c8d;
-    transform: translateY(-2px);
+.tab-btn i {
+    font-size: 16px;
 }
 
-.calculate-btn {
-    background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
-    color: white;
+/* Контент вкладок */
+.tab-content {
+    display: none;
+    padding: 20px;
+    min-height: 300px;
 }
 
-.calculate-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(46, 204, 113, 0.3);
+.tab-content.active {
+    display: block;
 }
 
 /* Визуализация */
 .canvas-container {
-    padding: 15px;
     text-align: center;
 }
 
 #chamferCanvas {
     width: 100%;
+    max-width: 350px;
     height: auto;
-    max-height: 250px;
     background: white;
-    border-radius: 8px;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.05);
-    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+    border: 1px solid #e9ecef;
+    margin: 0 auto;
 }
 
 /* Результаты */
 .results-display {
-    padding: 20px;
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    /* grid-template-columns: 1fr 1fr; */
     gap: 15px;
 }
 
-@media (max-width: 480px) {
-    .results-display {
-        grid-template-columns: 1fr;
-    }
-}
-
-.result-box {
-    background: white;
-    padding: 15px;
-    border-radius: 10px;
+.result-card {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    padding: 20px;
+    border-radius: 12px;
     display: flex;
     align-items: center;
     gap: 15px;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.05);
-    border: 2px solid #e0e0e0;
+    border: 2px solid #dee2e6;
     transition: all 0.3s;
 }
 
-.result-box:hover {
-    border-color: #3498db;
-    transform: translateY(-3px);
+.result-card:hover {
+    border-color: #4361ee;
+    transform: translateY(-2px);
 }
 
 .result-icon {
-    width: 40px;
-    height: 40px;
-    background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
-    border-radius: 8px;
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, #4361ee 0%, #3a0ca3 100%);
+    border-radius: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
     color: white;
-    font-size: 18px;
+    font-size: 20px;
 }
 
 .result-content {
-    flex-grow: 1;
+    flex: 1;
 }
 
 .result-label {
     font-size: 12px;
-    color: #7f8c8d;
-    margin-bottom: 5px;
+    color: #6c757d;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.5px;
+    margin-bottom: 5px;
 }
 
 .result-value {
-    font-size: 22px;
-    font-weight: 700;
-    color: #2c3e50;
+    font-size: 24px;
+    font-weight: 800;
+    color: #1a1a2e;
     line-height: 1;
     margin-bottom: 3px;
 }
 
 .result-unit {
     font-size: 12px;
-    color: #3498db;
+    color: #4361ee;
     font-weight: 600;
 }
 
 /* G-код */
+.gcode-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #e9ecef;
+}
+
+.gcode-header h3 {
+    font-size: 18px;
+    color: #2b2d42;
+}
+
 .copy-btn {
-    background: rgba(255, 255, 255, 0.15);
+    background: #4361ee;
     color: white;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: 6px;
-    width: 36px;
-    height: 36px;
+    border: none;
+    border-radius: 8px;
+    width: 40px;
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -392,97 +454,189 @@ body {
 }
 
 .copy-btn:hover {
-    background: rgba(255, 255, 255, 0.25);
-    transform: translateY(-1px);
+    background: #3a56d4;
+    transform: translateY(-2px);
 }
 
 .gcode-container {
+    background: #1a1a2e;
+    border-radius: 10px;
     padding: 15px;
-}
-
-#gCodePreview {
-    background: #2c3e50;
-    color: #ecf0f1;
-    padding: 15px;
-    border-radius: 8px;
-    font-family: 'Courier New', monospace;
-    font-size: 13px;
-    line-height: 1.5;
-    white-space: pre-wrap;
-    min-height: 150px;
-    max-height: 200px;
+    max-height: 250px;
     overflow-y: auto;
 }
 
-.input-with-clear {
-    position: relative;
-    display: flex;
-    align-items: center;
+#gCodePreview {
+    color: #e9ecef;
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 13px;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    margin: 0;
 }
-
-.input-with-clear input {
-    padding-right: 35px !important;
-}
-
-.field-clear-btn {
-    position: absolute;
-    right: 8px;
-    background: #e74c3c;
-    color: white;
-    border: none;
-    border-radius: 50%;
-    width: 22px;
-    height: 22px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    font-size: 10px;
-    transition: all 0.2s;
-    opacity: 0.7;
-    z-index: 2;
-}
-
-.field-clear-btn:hover {
-    opacity: 1;
-    transform: scale(1.1);
-    background: #c0392b;
-}
-
-/* Чекбокс радиуса */
-.checkbox-row {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 10px;
-}
-
-.checkbox-label {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-weight: 600;
-    color: #2c3e50;
-    cursor: pointer;
-    font-size: 14px;
-}
-
-.checkbox-label i {
-    color: #3498db;
-}
-
-.checkbox-row input[type="checkbox"] {
-    width: 18px;
-    height: 18px;
-    cursor: pointer;
-}
-
 
 /* Футер */
 .footer {
     text-align: center;
     padding: 15px;
-    color: #7f8c8d;
-    font-size: 13px;
-    border-top: 1px solid #eee;
+    color: #6c757d;
+    font-size: 12px;
+    border-top: 1px solid #e9ecef;
+}
+
+.footer i {
+    color: #4361ee;
+    margin-right: 5px;
+}
+
+/* Чекбокс в строке с заголовком */
+.checkbox-label-inline {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    margin-left: auto;
+    padding-left: 10px;
+}
+
+.checkbox-label-inline input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+.checkbox-text {
+    font-size: 12px;
+    color: #2b2d42;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+/* Улучшаем сетку настроек */
+.settings-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    padding: 15px;
+    background: white;
+    border-radius: 12px;
+    margin: 15px;
+    border: 2px solid #f6f6f6;
+}
+
+.setting-item {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.setting-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    color: #2b2d42;
+    font-size: 14px;
+    width: 100%;
+}
+
+.setting-header i {
+    color: #4361ee;
+    flex-shrink: 0;
+}
+
+.setting-header span {
+    flex-grow: 1;
+}
+
+/* Адаптивность для очень маленьких экранов */
+@media (max-width: 300px) {
+    .input-row {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .checkbox-label {
+        padding: 6px 0;
+    }
+    
+    .input-with-action {
+        flex-direction: column;
+    }
+    
+    .calc-action-btn {
+        width: 100%;
+        height: 40px;
+        margin-top: 5px;
+    }
+    
+    .settings-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .results-display {
+        grid-template-columns: 1fr;
+    }
+    
+    .tab-btn span {
+        display: none;
+    }
+    
+    .tab-btn {
+        font-size: 12px;
+        padding: 12px 5px;
+    }
+    
+    .tab-btn i {
+        font-size: 14px;
+    }
+    
+    .checkbox-label input[type="checkbox"] {
+        width: 16px;
+        height: 16px;
+    }
+    
+    .checkbox-text {
+        font-size: 13px;
+    }
+
+    .settings-grid {
+        grid-template-columns: 1fr; /* На очень маленьких в 1 колонку */
+    }
+    
+    .checkbox-label-inline {
+        margin-left: auto;
+    }
+    
+    .checkbox-label-inline input[type="checkbox"] {
+        width: 14px;
+        height: 14px;
+    }
+    
+    .checkbox-text {
+        font-size: 11px;
+    }
+    .clear-all-btn span {
+        display: none; /* Скрываем текст на очень маленьких экранах */
+    }
+    
+    .clear-all-btn {
+        padding: 8px;
+    }
+    
+    .clear-all-btn i {
+        margin-right: 0;
+    }
+}
+
+
+/* Убираем стрелки у числовых полей ввода */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
 }
